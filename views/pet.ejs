@@ -1,0 +1,31 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Pet</title>
+</head>
+
+<body>
+    <div class="pet">Pet</div>
+    <br>
+    <button id="feedBtn" onkeypress="petFeed()">Feed</button>
+    <button id="playBtn" onkeypress="petPlay()">Play</button>
+    <div id="actionLog">
+        <br>
+        <p>ACTION LOG</p>
+        <br>
+    </div>
+</body>
+<script>
+    var actLog = document.getElementById(actionLog)
+    function petFeed() {
+        actLog.textContent += "you fed your pet."
+    };
+    function petPlay() {
+        actLog.textContent += "you played with your pet."
+    };
+</script>
+
+</html>
