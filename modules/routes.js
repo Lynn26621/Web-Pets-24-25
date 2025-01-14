@@ -57,6 +57,7 @@ const logout = (req, res) => {
         };
     });
 };
+
 //handle chat
 const chat = (req, res) => {
     if (req.session.user) {
@@ -65,6 +66,16 @@ const chat = (req, res) => {
     } else {
         //user is not logged in
         res.render("chat", { username: null });
+    };
+};
+
+const petGET = (req, res) => {
+    if (req.session.user) {
+        //user is logged in
+        res.render("pet", { username: req.session.user });
+    } else {
+        //user is not logged in
+        res.render("pet", { username: null });
     };
 };
 
@@ -148,5 +159,6 @@ module.exports = {
     loginGET,
     logout,
     chat,
+    petGET,
     loginPOST
 };
