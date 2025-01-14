@@ -19,13 +19,13 @@
     </div>
 </body>
 <script>
-    var actLog = document.getElementById(actionLog)
+    var actLog = document.getElementById("actionLog");
     function petFeed() {
-        actLog.textContent += "you fed your pet."
-    };
+        actLog.innerHTML += "<p>you fed your pet.</p>";
+    }
     function petPlay() {
-        actLog.textContent += "you played with your pet."
-    };
+        actLog.innerHTML += "<p>you played with your pet.</p>";
+    }
 </script>
 
 </html>
