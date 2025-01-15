@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inventory</title>
+</head>
+
+<body>
+    <h1>INVENTORY</h1>
+    <div id="itemList"></div>
+</body>
+<script>
+    var inventory = ["apple", "ball"]
+
+    if (inventory.length > 0) {
+        inventory.forEach((item) => {
+        itemList.innerHTML += "<ul>" + item + "</ul>";
+        });
+    } else {
+        itemList.innerHTML = "<p>Your have no items.</p>";
+    };
+</script>
+
+</html>

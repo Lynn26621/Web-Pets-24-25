@@ -70,13 +70,11 @@ const chat = (req, res) => {
 };
 
 const petGET = (req, res) => {
-    if (req.session.user) {
-        //user is logged in
-        res.render("pet", { username: req.session.user });
-    } else {
-        //user is not logged in
-        res.render("pet", { username: null });
-    };
+    res.render("pet", { username: req.session.user });
+};
+
+const inventory = (req, res) => {
+    res.render("inventory", { username: req.session.user });
 };
 
 /*-----------
@@ -160,5 +158,6 @@ module.exports = {
     logout,
     chat,
     petGET,
+    inventory,
     loginPOST
 };
