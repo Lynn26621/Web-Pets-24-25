@@ -9,18 +9,19 @@
 
 <body>
     <h1>INVENTORY</h1>
-    <div id="itemList"></div>
+    <input type="search" placeholder="Search for an item..." oninput="filter(inventory)">
+    <div id="filter"></div>
+    <div id="itemList" onload="display()"></div>
+    
 </body>
-<script>
-    var inventory = ["apple", "ball"]
 
-    if (inventory.length > 0) {
-        inventory.forEach((item) => {
-        itemList.innerHTML += "<ul>" + item + "</ul>";
-        });
-    } else {
-        itemList.innerHTML = "<p>Your have no items.</p>";
-    };
+<script>
+    searchInput = document.querySelector("input");
+    filter = document.getElementById("filter");
+    itemList = document.getElementById("itemList");
+
+    search(searchInput);
+    fliter(itemList)
 </script>
 
 </html>
