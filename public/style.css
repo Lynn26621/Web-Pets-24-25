@@ -3,3 +3,38 @@
     width: 60px;
     height: 60px
 }
+
+button {
+    cursor: pointer;
+}
+
+.dropdown {
+    display: inline-flex;
+    position: relative;
+    padding: 10px;
+    border: 1px solid black;
+}
+
+.dropArw {
+    width: 0;
+    height: 0;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-top: 20px solid #000000;
+}
+
+.dropContent {
+    display: none;
+    cursor: pointer;
+    z-index: 1;
+    margin-bottom: 20px;
+}
+
+/* Show the dropdown menu on hover */
+.dropdown:hover .dropContent {
+    display: inline-block;
+}
+
+.dropOpt {
+    display: inline-block
+}

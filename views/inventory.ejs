@@ -4,24 +4,70 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
     <title>Inventory</title>
 </head>
 
 <body>
     <h1>INVENTORY</h1>
-    <input type="search" placeholder="Search for an item..." oninput="filter(inventory)">
-    <div id="filter"></div>
+    <div id="search">
+        <input type="search" placeholder="Search for an item..." oninput="filter(inventory)">
+        <button onclick="search(inventory)">Search</button>
+    </div>
+
+    <br>
+
+    <div class="dropdown" id="filter">
+        <div class="dropBtn">Filters</div>
+        <div class="dropContent" id="filterOptions">
+            <input type="checkbox" class="dropOpt" id="foodCheck">Food</input>
+            <input type="checkbox" class="dropOpt" id="toyCheck">Toys</input>
+            <button onclick="filter(inventory)">Apply filters</button>
+        </div>
+    </div>
     <div id="itemList" onload="display()"></div>
-    
+
 </body>
 
 <script>
+
+    function display() {
+        if (inventory.length > 0) {
+            inventory.forEach((item) => {
+                itemList.innerHTML += "<ul>" + item + "</ul>";
+            });
+        } else {
+            itemList.innerHTML = "<p>Your have no items.</p>";
+        };
+    };
+
+    function search(inventory) {
+        const searchTerm = inventory.target.value.trim().toLowerCase();
+        inventory.forEach((item) => {
+            if (!items.innerText.includes(searchTerm)) {
+                item.style.display = false;
+            } else {
+                item.style.display = true;
+            };
+        });
+    };
+
+    function filter(inventory) {
+        if (dropOpt.checked) {
+            inventory.forEach((item) => {
+                if (item.classList.contains(inventory.target.value)) {
+                    item.style.display = true;
+                } else {
+                    item.style.display = false;
+                };
+            });
+        };
+    };
+
     searchInput = document.querySelector("input");
     filter = document.getElementById("filter");
     itemList = document.getElementById("itemList");
 
-    search(searchInput);
-    fliter(itemList)
 </script>
 
 </html>
