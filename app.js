@@ -51,6 +51,8 @@ app.get("/logout", isAuthenticated, routesMod.logout);
 app.get("/chat", isAuthenticated, routesMod.chat);
 app.get("/pet", isAuthenticated, routesMod.petGET);
 app.get("/map", isAuthenticated, routesMod.map);
+app.get("/work", isAuthenticated, routesMod.work);
+app.get("/store", isAuthenticated, routesMod.shop);
 app.post("/login", routesMod.loginPOST);
 
 app.use(express.static(path.join(__dirname, "public"))); //configure use the static "public" folder for requests
