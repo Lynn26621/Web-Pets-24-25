@@ -18,6 +18,9 @@ Server Config
 const app = express(); //initialize express, set as the "app" object
 const port = process.env.PORT || 3000; //set the port number
 
+app.use(express.static(path.join(__dirname, "public"))); //configure use the static "public" folder for requests
+app.use("/modules", express.static(path.join(__dirname, "modules"))); //configure use the static "modules" folder for requests
+
 //initialize the server, set as the "server" object
 const server = app.listen(port, () => {
     console.log(`Server started at http://localhost:${port}`)
@@ -52,8 +55,6 @@ app.get("/chat", isAuthenticated, routesMod.chat)
 app.get("/pet", isAuthenticated, routesMod.petGET);
 app.get("/inventory", isAuthenticated, routesMod.inventory);
 app.post("/login", routesMod.loginPOST);
-
-app.use(express.static(path.join(__dirname, "public"))); //configure use the static "public" folder for requests
 
 //configure the io object to use middleware
 io.use((socket, next) => {

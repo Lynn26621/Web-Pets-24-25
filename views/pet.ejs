@@ -10,10 +10,9 @@
 <body>
     <div class="pet">Pet</div>
     <br>
-    <button id="feedBtn" onkeypress="petFeed()">Feed</button>
-    <button id="playBtn" onkeypress="petPlay()">Play</button>
+    <button id="foodBtn" onkeypress="getFood()">Get Food</button>
     <br>
-<a href="/inventory">Inventory</a>
+    <a href="/inventory">Inventory</a>
     <div id="actionLog">
         <br>
         <p>ACTION LOG</p>
@@ -22,12 +21,12 @@
 </body>
 <script>
     var actLog = document.getElementById("actionLog");
-    function petFeed() {
-        actLog.innerHTML += "<p>you fed your pet.</p>";
-    }
-    function petPlay() {
-        actLog.innerHTML += "<p>you played with your pet.</p>";
-    }
+    function getFood() {
+        player.inventory.push({
+            name: "apple",
+            type: "food"
+        });
+    };
 </script>
 
 </html>
