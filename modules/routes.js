@@ -1,6 +1,7 @@
 const jwt = require("jsonwebtoken");
 const sqlite3 = require("sqlite3");
 const crypto = require("crypto");
+const { log } = require("console");
 
 //set URLs
 const AUTH_URL = "https://formbar.yorktechapps.com/oauth";
@@ -36,15 +37,17 @@ const index = (req, res) => {
 const loginGET = (req, res) => {
     //extract token from the Authorization header
     const token = req.query.token;
-
+console.log(token)
     if (!token) {
         res.render("login", { AUTH_URL: AUTH_URL, THIS_URL: THIS_URL });
     } else if (token) {
         let tokenData = jwt.decode(req.query.token);
         req.session.token = tokenData;
         req.session.user = tokenData.username;
-        res.redirect("/");
-    }
+        //load pet from database here
+        
+    
+    };
 };
 
 //handle logout
@@ -72,7 +75,8 @@ const chat = (req, res) => {
 const petGET = (req, res) => {
     if (req.session.user) {
         //user is logged in
-        res.render("pet", { username: req.session.user });
+        console.log("Pet:", req.session.pet);
+        res.render("pet", { username: req.session.user, pet1: req.session.pet });
     } else {
         //user is not logged in
         res.render("pet", { username: null });
@@ -124,7 +128,31 @@ const loginPOST = (req, res) => {
 
                         if (row.password === hashedPassword) {
                             req.session.user = user;
-                            res.redirect("/");
+                            
+                            db.get("SELECT pets.*, users.username FROM pets; JOIN users ON pets.ownerID = users.uid;", [req.session.user], (err, row) => {
+                                console.log('check 1');
+                                
+                                if (!row) {
+                                    console.log('check 2');
+                                    //if no pet, create a new pet, write to database
+                                    db.run("INSERT INTO pets (ownerID, hunger, happiness) VALUES (?, 100, 100);", [req.session.user], (err) => {
+                                        if (err) {
+                                            res.send("Error creating pet: " + err);
+                                        } else {
+                                            req.session.pet = { username: req.session.user, hunger: 100, happiness: 100 };
+                                            console.log('check 3: ' + req.session.pet)
+                                            res.redirect("/pet");
+                                        };
+                                    });
+                                }
+                                else {
+                                    //pet found
+                                    req.session.pet = row;
+                                    console.log(req.session.pet)
+                                    res.redirect("/pet");
+                                };
+                    
+                            });
                         } else {
                             res.status(401).send("Invalid username or password.");
                         };

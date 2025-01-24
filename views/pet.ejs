@@ -8,10 +8,14 @@
 </head>
 
 <body>
-    <div class="pet">Pet</div>
+    <div id="pet">
+        <img src="Self-taught_Prodigy.png" alt="Pet">
+    </div>
     <br>
-    <button id="feedBtn" onkeypress="petFeed()">Feed</button>
-    <button id="playBtn" onkeypress="petPlay()">Play</button>
+    <button id="feedBtn" onclick="petFeed(pet1)">Feed</button>
+    <button id="playBtn" onclick="petPlay(pet1)">Play</button>
+    <div id="hungerStat"></div>
+    <div id="happinessStat"></div>
     <div id="actionLog">
         <br>
         <p>ACTION LOG</p>
@@ -19,13 +23,20 @@
     </div>
 </body>
 <script>
-    var actLog = document.getElementById("actionLog");
-    function petFeed() {
-        actLog.innerHTML += "<p>you fed your pet.</p>";
-    }
-    function petPlay() {
-        actLog.innerHTML += "<p>you played with your pet.</p>";
-    }
-</script>
+    console.log(pet1, petFeed, petPlay, petHunger);
+    console.log('I HATE CONSOLE LOGGING')
+    let hungerStat = document.getElementById("hungerStat");
+    let happinessStat = document.getElementById("happinessStat");
+    let actLog = document.getElementById("actionLog");
+    hungerStat.innerHTML = "<p>Hunger: " + pet1.hunger + "</p>";
+    happinessStat.innerHTML = "<p>Happiness: " + pet1.happiness + "</p>";
 
+    const db = new sqlite3.Database("data/database.db", (err) => {
+        if (err) {
+            console.error("Failed to connect to the database: ", err);
+            process.exit(1); //exit the process
+        };
+    });
+
+</script>
 </html>

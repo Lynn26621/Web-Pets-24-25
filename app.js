@@ -63,3 +63,18 @@ io.use((socket, next) => {
 io.on("connection", (socket) => {
     socketMod.socketHandler(socket, io);
 });
+
+app.get('/pet', (req, res) => {
+    res.render('pet', { pet1: pet1 });
+}
+);
+
+app.post('/feed', (req, res) => {
+    pet1 = petFeed(pet1);
+    res.send(`Hunger: ${pet1.hunger}, Happiness: ${pet1.happiness}`);
+});
+
+app.post('/play', (req, res) => {
+    pet1 = petPlay(pet1);
+    res.send(`Hunger: ${pet1.hunger}, Happiness: ${pet1.happiness}`);
+});
