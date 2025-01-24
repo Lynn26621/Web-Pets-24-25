@@ -7,4 +7,4 @@ Practice<br/><br/>
 You know it!<br/><br/>
 > **Is it John Quincy Adams approved?**<br/><br/>
 ![ImageHere](https://github.com/lynn26621/Web-Pets-24-25/blob/main/public/JohnQuincyAdams.jpg?raw=true)<br/><br/>
-Yes.
+No.

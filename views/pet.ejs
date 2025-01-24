@@ -9,7 +9,7 @@
 
 <body>
     <div>
-        <a href="/">Back to homepage</a>
+        <a href="/">Back to homepage</a><br><br>
     </div>
     <div id="pet">
         <img src="Self-taught_Prodigy.png" alt="Pet">
@@ -26,7 +26,10 @@
     </div>
 </body>
 <script>
-    console.log(pet1, petFeed, petPlay, petHunger);
+
+</script>
+<script>
+    
     console.log('I HATE CONSOLE LOGGING')
     let hungerStat = document.getElementById("hungerStat");
     let happinessStat = document.getElementById("happinessStat");
@@ -34,12 +37,39 @@
     hungerStat.innerHTML = "<p>Hunger: " + pet1.hunger + "</p>";
     happinessStat.innerHTML = "<p>Happiness: " + pet1.happiness + "</p>";
 
-    const db = new sqlite3.Database("data/database.db", (err) => {
-        if (err) {
-            console.error("Failed to connect to the database: ", err);
-            process.exit(1); //exit the process
-        };
-    });
     console.log("Goog...")
+
+
+    function petFeed() {
+        console.log("feed function");
+        //Don't allow feeding if pet is too full
+        if (pet1.hunger > 80) {
+            actLog.innerHTML += "<p>Your pet is too full to eat right now.</p>";
+            return;
+        }
+        else if (pet1.hunger <= 80) {
+            actLog.innerHTML += "<p>You fed your pet.</p>";
+            // update the pet hunger stat in the database
+            db.run(`UPDATE pets SET hunger = hunger + 20 WHERE id = ${pet1.id}`)
+            // update the hungerStat display number
+            hungerStat.innerHTML = `<p>Hunger: ${pet1.hunger + 20}</p>`;
+        }
+    }
+
+    function petPlay() {
+        console.log("play function");
+        // update the pet happiness stat in the database
+        if (pet1.happiness > 80) {
+            actLog.innerHTML += "<p>You play with your pet.</p>";
+            db.run(`UPDATE pets SET happiness = 100 WHERE id = ${pet1.id}`)
+        }
+        else if (pet1.happiness <= 80) {
+            actLog.innerHTML += "<p>You play with your pet.</p>";
+            db.run(`UPDATE pets SET happiness = happiness + 20 WHERE id = ${pet1.id}`)
+        }
+        // update the happinessStat display number
+        happinessStat.innerHTML = `<p>Happiness: ${pet1.happiness}</p>`;
+    }
 </script>
+
 </html>

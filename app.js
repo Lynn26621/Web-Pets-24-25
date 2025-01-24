@@ -72,6 +72,23 @@ app.get('/pet', (req, res) => {
 }
 );
 
+function petHunger(pet) {
+    console.log("hunger function");
+
+    let timer = setInterval(() => {
+        pet.hunger -= 1;
+        if (pet.hunger <= 0) {
+            clearInterval(timer);
+        }
+    }, 10000); //10 seconds
+
+    return pet.hunger;
+}
+
+app.get('/pet', (req, res) => {
+    res.render('pet', { pet1: pet1, petHunger: petHunger.toString() });
+});
+
 // app.post('/feed', (req, res) => {
 //     pet1 = petFeed(pet1);
 //     res.send(`Hunger: ${pet1.hunger}, Happiness: ${pet1.happiness}`);

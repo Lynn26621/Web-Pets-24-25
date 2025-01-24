@@ -108,6 +108,16 @@ const petGET = (req, res) => {
         //user is logged in
         console.log("Pet:", req.session.pet);
         res.render("pet", { username: req.session.user, pet1: req.session.pet });
+        db.get(`SELECT * FROM pets WHERE ownerID = ${req.session.user}`, (err, row) => {
+            if (err) {
+                console.error("Failed to retrieve pet from the database: ", err);
+                return;
+            }
+            pet1 = row;
+            hungerStat.innerHTML = `<p>Hunger: ${pet1.hunger}</p>`;
+            happinessStat.innerHTML = `<p>Happiness: ${pet1.happiness}</p>`;
+        });
+    
     } else {
         //user is not logged in
         res.render("pet", { username: null });
