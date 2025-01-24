@@ -67,10 +67,41 @@ const chat = (req, res) => {
         //user is logged in
         res.render("chat", { username: req.session.user });
     } else {
-        //user is not logged in
-        res.render("chat", { username: null });
+        res.redirect("/login");
     };
 };
+
+//handle map
+const map = (req, res) => {
+    if (req.session.user) {
+        //user is logged in
+        res.render("map", { username: req.session.user });
+    }
+    else {
+        res.redirect("/login");
+    }
+};
+
+const store = (req, res) => {
+    if (req.session.user) {
+        //user is logged in
+        res.render("store", { username: req.session.user });
+    }
+    else {
+        res.redirect("/login");
+    }
+};
+
+const work = (req, res) => {
+    if (req.session.user) {
+        //user is logged in
+        res.render("work", { username: req.session.user });
+    }
+    else {
+        res.redirect("/login");
+    }
+};
+
 
 const petGET = (req, res) => {
     if (req.session.user) {
@@ -188,5 +219,8 @@ module.exports = {
     logout,
     chat,
     petGET,
-    loginPOST
+    loginPOST,
+    map,
+    store,
+    work
 };

@@ -48,8 +48,9 @@ app.use(express.urlencoded({ extended: true })); //encode url
 app.get("/", routesMod.index);
 app.get("/login", routesMod.loginGET);
 app.get("/logout", isAuthenticated, routesMod.logout);
-app.get("/chat", isAuthenticated, routesMod.chat)
-app.get("/pet", isAuthenticated, routesMod.petGET);;
+app.get("/chat", isAuthenticated, routesMod.chat);
+app.get("/pet", isAuthenticated, routesMod.petGET);
+app.get("/map", isAuthenticated, routesMod.map);
 app.post("/login", routesMod.loginPOST);
 
 app.use(express.static(path.join(__dirname, "public"))); //configure use the static "public" folder for requests
@@ -69,12 +70,12 @@ app.get('/pet', (req, res) => {
 }
 );
 
-app.post('/feed', (req, res) => {
-    pet1 = petFeed(pet1);
-    res.send(`Hunger: ${pet1.hunger}, Happiness: ${pet1.happiness}`);
-});
+// app.post('/feed', (req, res) => {
+//     pet1 = petFeed(pet1);
+//     res.send(`Hunger: ${pet1.hunger}, Happiness: ${pet1.happiness}`);
+// });
 
-app.post('/play', (req, res) => {
-    pet1 = petPlay(pet1);
-    res.send(`Hunger: ${pet1.hunger}, Happiness: ${pet1.happiness}`);
-});
+// app.post('/play', (req, res) => {
+//     pet1 = petPlay(pet1);
+//     res.send(`Hunger: ${pet1.hunger}, Happiness: ${pet1.happiness}`);
+// });
