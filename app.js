@@ -18,6 +18,9 @@ Server Config
 const app = express(); //initialize express, set as the "app" object
 const port = process.env.PORT || 3000; //set the port number
 
+app.use(express.static(path.join(__dirname, "public"))); //configure use the static "public" folder for requests
+app.use("/modules", express.static(path.join(__dirname, "modules"))); //configure use the static "modules" folder for requests
+
 //initialize the server, set as the "server" object
 const server = app.listen(port, () => {
     console.log(`Server started at http://localhost:${port}`)
@@ -48,14 +51,10 @@ app.use(express.urlencoded({ extended: true })); //encode url
 app.get("/", routesMod.index);
 app.get("/login", routesMod.loginGET);
 app.get("/logout", isAuthenticated, routesMod.logout);
-app.get("/chat", isAuthenticated, routesMod.chat);
+app.get("/chat", isAuthenticated, routesMod.chat)
 app.get("/pet", isAuthenticated, routesMod.petGET);
-app.get("/map", isAuthenticated, routesMod.map);
-app.get("/work", isAuthenticated, routesMod.work);
-app.get("/store", isAuthenticated, routesMod.store);
+app.get("/inventory", isAuthenticated, routesMod.inventory);
 app.post("/login", routesMod.loginPOST);
-
-app.use(express.static(path.join(__dirname, "public"))); //configure use the static "public" folder for requests
 
 //configure the io object to use middleware
 io.use((socket, next) => {
@@ -66,35 +65,3 @@ io.use((socket, next) => {
 io.on("connection", (socket) => {
     socketMod.socketHandler(socket, io);
 });
-
-app.get('/pet', (req, res) => {
-    res.render('pet', { pet1: pet1 });
-}
-);
-
-function petHunger(pet) {
-    console.log("hunger function");
-
-    let timer = setInterval(() => {
-        pet.hunger -= 1;
-        if (pet.hunger <= 0) {
-            clearInterval(timer);
-        }
-    }, 10000); //10 seconds
-
-    return pet.hunger;
-}
-
-app.get('/pet', (req, res) => {
-    res.render('pet', { pet1: pet1, petHunger: petHunger.toString() });
-});
-
-// app.post('/feed', (req, res) => {
-//     pet1 = petFeed(pet1);
-//     res.send(`Hunger: ${pet1.hunger}, Happiness: ${pet1.happiness}`);
-// });
-
-// app.post('/play', (req, res) => {
-//     pet1 = petPlay(pet1);
-//     res.send(`Hunger: ${pet1.hunger}, Happiness: ${pet1.happiness}`);
-// });

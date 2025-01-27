@@ -8,17 +8,11 @@
 </head>
 
 <body>
-    <div>
-        <a href="/">Back to homepage</a><br><br>
-    </div>
-    <div id="pet">
-        <img src="Self-taught_Prodigy.png" alt="Pet">
-    </div>
+    <div class="pet">Pet</div>
     <br>
-    <button id="feedBtn" onclick="petFeed(pet1)">Feed</button>
-    <button id="playBtn" onclick="petPlay(pet1)">Play</button>
-    <div id="hungerStat"></div>
-    <div id="happinessStat"></div>
+    <button id="foodBtn" onkeypress="getFood()">Get Food</button>
+    <br>
+    <a href="/inventory">Inventory</a>
     <div id="actionLog">
         <br>
         <p>ACTION LOG</p>
@@ -26,50 +20,13 @@
     </div>
 </body>
 <script>
-
-</script>
-<script>
-    
-    console.log('I HATE CONSOLE LOGGING')
-    let hungerStat = document.getElementById("hungerStat");
-    let happinessStat = document.getElementById("happinessStat");
-    let actLog = document.getElementById("actionLog");
-    hungerStat.innerHTML = "<p>Hunger: " + pet1.hunger + "</p>";
-    happinessStat.innerHTML = "<p>Happiness: " + pet1.happiness + "</p>";
-
-    console.log("Goog...")
-
-
-    function petFeed() {
-        console.log("feed function");
-        //Don't allow feeding if pet is too full
-        if (pet1.hunger > 80) {
-            actLog.innerHTML += "<p>Your pet is too full to eat right now.</p>";
-            return;
-        }
-        else if (pet1.hunger <= 80) {
-            actLog.innerHTML += "<p>You fed your pet.</p>";
-            // update the pet hunger stat in the database
-            db.run(`UPDATE pets SET hunger = hunger + 20 WHERE id = ${pet1.id}`)
-            // update the hungerStat display number
-            hungerStat.innerHTML = `<p>Hunger: ${pet1.hunger + 20}</p>`;
-        }
-    }
-
-    function petPlay() {
-        console.log("play function");
-        // update the pet happiness stat in the database
-        if (pet1.happiness > 80) {
-            actLog.innerHTML += "<p>You play with your pet.</p>";
-            db.run(`UPDATE pets SET happiness = 100 WHERE id = ${pet1.id}`)
-        }
-        else if (pet1.happiness <= 80) {
-            actLog.innerHTML += "<p>You play with your pet.</p>";
-            db.run(`UPDATE pets SET happiness = happiness + 20 WHERE id = ${pet1.id}`)
-        }
-        // update the happinessStat display number
-        happinessStat.innerHTML = `<p>Happiness: ${pet1.happiness}</p>`;
-    }
+    var actLog = document.getElementById("actionLog");
+    function getFood() {
+        player.inventory.push({
+            name: "apple",
+            type: "food"
+        });
+    };
 </script>
 
 </html>

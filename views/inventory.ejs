@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Inventory</title>
+</head>
+
+<body>
+    <h1>INVENTORY</h1>
+    <div id="search">
+        <input type="search" placeholder="Search for an item..." oninput="filterInventory()">
+        <button onclick="searchInventory()">Search</button>
+    </div>
+
+    <br>
+
+    <div class="dropdown" id="filter">
+        <div class="dropBtn">Filters</div>
+        <button class="appBtn" onclick="filterInventory()">Apply filters</button>
+
+        <div class="dropContent" id="filterOptions">
+            <label for="foodCheck">Food
+                <input type="checkbox" class="dropOpt" id="foodCheck">
+            </label>
+            <br>
+            <label for="toyCheck">Toys
+                <input type="checkbox" class="dropOpt" id="toyCheck">
+            </label>
+            <br>
+        </div>
+    </div>
+
+    <div id="itemList" onload="displayInventory()"></div>
+    <br>
+    <a href="/pet">Back</a>
+
+</body>
+
+<script type="module">
+    import { displayInventory, filterInventory, searchInventory } from "/modules/playerInventoryClient.js";
+
+    window.displayInventory = () => displayInventory(player);
+    window.filterInventory = () => filterInventory(player);
+    window.searchInventory = () => {
+        const searchTerm = document.getElementById("searchInput").value.trim().toLowerCase();
+        const results = searchInventory(player, searchTerm);
+        console.log(results); //display search results in the console or update the UI accordingly
+    };
+</script>
+
+</html>

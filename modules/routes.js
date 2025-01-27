@@ -1,7 +1,6 @@
 const jwt = require("jsonwebtoken");
 const sqlite3 = require("sqlite3");
 const crypto = require("crypto");
-const { log } = require("console");
 
 //set URLs
 const AUTH_URL = "https://formbar.yorktechapps.com/oauth";
@@ -9,6 +8,10 @@ const THIS_URL = "http://localhost:3000/login";
 
 //set secret key
 const JWT_SECRET = "key_secret";
+
+//custom modules
+const player = require("./player.js");
+const playerInventory = require("./playerInventoryServer.js");
 
 //create a new database, set as the "db" object
 const db = new sqlite3.Database("data/database.db", (err) => {
@@ -37,17 +40,15 @@ const index = (req, res) => {
 const loginGET = (req, res) => {
     //extract token from the Authorization header
     const token = req.query.token;
-console.log(token)
+
     if (!token) {
         res.render("login", { AUTH_URL: AUTH_URL, THIS_URL: THIS_URL });
     } else if (token) {
         let tokenData = jwt.decode(req.query.token);
         req.session.token = tokenData;
         req.session.user = tokenData.username;
-        //load pet from database here
-        
-    
-    };
+        res.redirect("/");
+    }
 };
 
 //handle logout
@@ -67,61 +68,18 @@ const chat = (req, res) => {
         //user is logged in
         res.render("chat", { username: req.session.user });
     } else {
-        res.redirect("/login");
+        //user is not logged in
+        res.render("chat", { username: null });
     };
 };
-
-//handle map
-const map = (req, res) => {
-    if (req.session.user) {
-        //user is logged in
-        res.render("map", { username: req.session.user });
-    }
-    else {
-        res.redirect("/login");
-    }
-};
-
-const store = (req, res) => {
-    if (req.session.user) {
-        //user is logged in
-        res.render("store", { username: req.session.user });
-    }
-    else {
-        res.redirect("/login");
-    }
-};
-
-const work = (req, res) => {
-    if (req.session.user) {
-        //user is logged in
-        res.render("work", { username: req.session.user });
-    }
-    else {
-        res.redirect("/login");
-    }
-};
-
 
 const petGET = (req, res) => {
-    if (req.session.user) {
-        //user is logged in
-        console.log("Pet:", req.session.pet);
-        res.render("pet", { username: req.session.user, pet1: req.session.pet });
-        db.get(`SELECT * FROM pets WHERE ownerID = ${req.session.user}`, (err, row) => {
-            if (err) {
-                console.error("Failed to retrieve pet from the database: ", err);
-                return;
-            }
-            pet1 = row;
-            hungerStat.innerHTML = `<p>Hunger: ${pet1.hunger}</p>`;
-            happinessStat.innerHTML = `<p>Happiness: ${pet1.happiness}</p>`;
-        });
-    
-    } else {
-        //user is not logged in
-        res.render("pet", { username: null });
-    };
+    res.render("pet", { username: req.session.user });
+};
+
+const inventory = (req, res) => {
+    const inventoryItems = playerInventory.getInventory(req.session.user);
+    res.render("inventory", { username: req.session.user, inventory: inventoryItems});
 };
 
 /*-----------
@@ -169,31 +127,7 @@ const loginPOST = (req, res) => {
 
                         if (row.password === hashedPassword) {
                             req.session.user = user;
-                            
-                            db.get("SELECT pets.*, users.username FROM pets; JOIN users ON pets.ownerID = users.uid;", [req.session.user], (err, row) => {
-                                console.log('check 1');
-                                
-                                if (!row) {
-                                    console.log('check 2');
-                                    //if no pet, create a new pet, write to database
-                                    db.run("INSERT INTO pets (ownerID, hunger, happiness) VALUES (?, 100, 100);", [req.session.user], (err) => {
-                                        if (err) {
-                                            res.send("Error creating pet: " + err);
-                                        } else {
-                                            req.session.pet = { username: req.session.user, hunger: 100, happiness: 100 };
-                                            console.log('check 3: ' + req.session.pet)
-                                            res.redirect("/pet");
-                                        };
-                                    });
-                                }
-                                else {
-                                    //pet found
-                                    req.session.pet = row;
-                                    console.log(req.session.pet)
-                                    res.redirect("/pet");
-                                };
-                    
-                            });
+                            res.redirect("/");
                         } else {
                             res.status(401).send("Invalid username or password.");
                         };
@@ -229,8 +163,6 @@ module.exports = {
     logout,
     chat,
     petGET,
-    loginPOST,
-    map,
-    store,
-    work
+    inventory,
+    loginPOST
 };

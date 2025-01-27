@@ -3,3 +3,43 @@
     width: 60px;
     height: 60px
 }
+
+button {
+    cursor: pointer;
+    display: inline-block;
+}
+
+input[type=checkbox] { 
+    position: relative;
+    float: left;
+}
+
+label {
+    display: inline-block;
+    position: relative;
+}
+
+.dropdown {
+    width: 15%;
+    padding: 10px;
+    border: 1px solid black;
+}
+
+.dropContent {
+    display: none;
+}
+
+.dropdown:hover .dropContent {
+    display: block;
+}
+
+.dropBtn {
+    display: inline;
+}
+
+.appBtn {
+    display: inline;
+    float: right;
+    text-align: center;
+    cursor: pointer;
+}
