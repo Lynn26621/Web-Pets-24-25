@@ -9,9 +9,6 @@ const THIS_URL = "http://localhost:3000/login";
 //set secret key
 const JWT_SECRET = "key_secret";
 
-//custom modules
-const player = require("./player.js");
-const playerInventory = require("./playerInventoryServer.js");
 
 //create a new database, set as the "db" object
 const db = new sqlite3.Database("data/database.db", (err) => {
@@ -73,14 +70,6 @@ const chat = (req, res) => {
     };
 };
 
-const petGET = (req, res) => {
-    res.render("pet", { username: req.session.user });
-};
-
-const inventory = (req, res) => {
-    const inventoryItems = playerInventory.getInventory(req.session.user);
-    res.render("inventory", { username: req.session.user, inventory: inventoryItems});
-};
 
 /*-----------
 POST Requests
@@ -162,7 +151,5 @@ module.exports = {
     loginGET,
     logout,
     chat,
-    petGET,
-    inventory,
     loginPOST
 };

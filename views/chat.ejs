@@ -19,15 +19,18 @@
 
             const message = `${username}: ${messageContent}`;
 
-            const messageElement = document.createElement("p");
-            messageElement.textContent = message;
-            sentMessages.appendChild(messageElement);
-
             socketClient.emit("message", { username, messageContent });
 
             messageInput.value = ""; //clear the input after sending
         };
 
+        socketClient.on("message", (data) => {
+            if (data.username === username) return; // Prevent duplicate message for sender
+            const sentMessages = document.getElementById("sentMessages");
+            const messageElement = document.createElement("p");
+            messageElement.textContent = `${data.username}: ${data.messageContent}`;
+            sentMessages.appendChild(messageElement);
+        });
     </script>
 </head>
 

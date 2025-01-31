@@ -52,8 +52,6 @@ app.get("/", routesMod.index);
 app.get("/login", routesMod.loginGET);
 app.get("/logout", isAuthenticated, routesMod.logout);
 app.get("/chat", isAuthenticated, routesMod.chat)
-app.get("/pet", isAuthenticated, routesMod.petGET);
-app.get("/inventory", isAuthenticated, routesMod.inventory);
 app.post("/login", routesMod.loginPOST);
 
 //configure the io object to use middleware
